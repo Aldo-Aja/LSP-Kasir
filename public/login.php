@@ -25,7 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['role'] = $user['role']; // Store user role in session
 
             // Redirect to dashboard
+            if ($_SESSION['role'] == 'Admin') {
             header("Location: ../views/dashboard.php");
+            } else {
+              header("location: ../views/entri_meja.php");
+            }
             exit();
         } else {
             // Invalid password

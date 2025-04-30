@@ -1,4 +1,10 @@
-        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
+  <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="index.html" class="app-brand-link">
               <span class="app-brand-logo demo">
@@ -68,15 +74,18 @@
 
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
+            <?php if ($_SESSION['role'] === 'Admin'): ?>
             <li class="menu-item active">
               <a href="dashboard.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
               </a>
             </li>
+            <?php endif; ?>
 
             <!-- Components -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Components</span></li>
+
             <!-- Cards -->
             <li class="menu-item">
               <a href="../views/entri_meja.php" class="menu-link">
@@ -84,6 +93,8 @@
                 <div data-i18n="Basic">Entri Meja</div>
               </a>
             </li>
+
+
             <li class="menu-item">
               <a href="../views/entri_menu.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
@@ -91,6 +102,7 @@
               </a>
             </li>
           </ul>
+
         </aside>
 
         <nav
@@ -183,7 +195,7 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="../public/login.php">
+                      <a class="dropdown-item" href="../public/logout.php">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>
