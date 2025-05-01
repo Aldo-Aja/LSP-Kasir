@@ -110,7 +110,7 @@ $grand_total = $total + $pajak;
 
                         <div class="row invoice-preview">
                             <!-- Invoice -->
-                            <div class="col-xl-9 col-md-8 col-12 mb-md-0 mb-6">
+                            <div class="col-xl-9 col-md-8 col-12 mb-md-0 mb-6" id="invoice">
                                 <div class="card invoice-preview-card p-sm-12 p-6">
                                     <div class="card-body invoice-preview-header rounded">
                                         <div class="d-flex justify-content-between flex-xl-row flex-md-column flex-sm-row flex-column align-items-xl-center align-items-md-start align-items-sm-center align-items-start">
@@ -187,8 +187,7 @@ $grand_total = $total + $pajak;
                             <div class="col-xl-3 col-md-4 col-12 invoice-actions">
                                 <div class="card">
                                     <div class="card-body">
-                                        <button class="btn btn-primary d-grid w-100 mb-4" target="_blank">Print</button>
-                                        <button class="btn btn-success d-grid w-100 mb-4">Download</button>
+                                        <button class="btn btn-primary d-grid w-100 mb-4" onclick="printInvoice()" target="_blank">Print</button>
                                         <form id="form-bayar" method="POST">
                                             <input type="hidden" name="id_meja" value="<?= $id_meja ?>">
                                             <input type="hidden" name="total" value="<?= $total ?>">
@@ -256,6 +255,43 @@ $grand_total = $total + $pajak;
 
             xhr.send(formData);
         });
+
+        function printInvoice() {
+            var invoiceContent = document.getElementById("invoice").innerHTML;
+            var printWindow = window.open("", "", "width=1000,height=700");
+
+            printWindow.document.write('<html><head><title>Invoice</title>');
+
+            // Tambahkan semua <link rel="stylesheet"> dari halaman utama
+            document.querySelectorAll('link[rel="stylesheet"]').forEach((link) => {
+                printWindow.document.write(link.outerHTML);
+            });
+
+            // Tambahkan juga styling landscape saat print
+            printWindow.document.write(`
+    <style>
+      @media print {
+        @page {
+          size: A4 landscape;
+          margin: 20mm;
+        }
+      }
+    </style>
+  `);
+
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(invoiceContent);
+            printWindow.document.write('</body></html>');
+
+            printWindow.document.close();
+            printWindow.focus();
+
+            // Tunggu sebentar supaya CSS sempat terload
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 1000);
+        }
     </script>
 
     <!-- Main JS -->
