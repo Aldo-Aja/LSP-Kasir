@@ -81,21 +81,31 @@ while ($r = $result->fetch_assoc()) {
               . '</button>';
 
           // Tombol Order jika Waiter dan meja Terisi
-          if ($_SESSION['role'] === 'Waiter' && $occ) {
-            echo '<button class="btn btn-sm btn-success btn-order" 
-                          data-bs-toggle="modal" 
-                          data-bs-target="#modalAddPesanan"
-                          data-id="'.$r['id_meja'].'" 
-                          data-meja="'.htmlspecialchars($r['nomor_meja']).'">
-                    Order
-                  </button>';
+          if ($occ) {
+  if ($_SESSION['role'] === 'Waiter') {
+    echo '<button class="btn btn-sm btn-success btn-order" 
+                  data-bs-toggle="modal" 
+                  data-bs-target="#modalAddPesanan"
+                  data-id="'.$r['id_meja'].'" 
+                  data-meja="'.htmlspecialchars($r['nomor_meja']).'">
+            Order
+          </button>';
 
-            echo '<button class="btn btn-sm btn-info btn-riwayat"
-                          data-id="'.$r['id_meja'].'" 
-                          data-meja="'.htmlspecialchars($r['nomor_meja']).'">
-                    Riwayat
-                  </button>';
-          }
+    echo '<button class="btn btn-sm btn-info btn-riwayat"
+                  data-id="'.$r['id_meja'].'" 
+                  data-meja="'.htmlspecialchars($r['nomor_meja']).'">
+            Riwayat
+          </button>';
+  }
+
+  if ($_SESSION['role'] === 'Kasir') {
+    echo '<a href="invoice.php?id_meja='.$r['id_meja'].'" 
+              class="btn btn-sm btn-warning">
+            Bayar
+          </a>';
+  }
+}
+
         echo '</div>';
 
       echo '</div>';
